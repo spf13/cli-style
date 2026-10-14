@@ -1,0 +1,44 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  manifests:
+    name: manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate manifests against the published schemastore schemas
+        run: |
+          python3 -m pip install --quiet jsonschema
+          python3 .github/scripts/validate_manifests.py
+
+  invariants:
+    name: invariants
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check cross-file invariants
+        run: python3 .github/scripts/check_invariants.py
+
+  links:
+    name: links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links in README.md and CONTRIBUTING.md
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --accept "200..=299" README.md CONTRIBUTING.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

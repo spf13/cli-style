@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "cli-style",
+  "displayName": "CLI Style: 56 Principles for Human & Agent CLIs",
+  "description": "Authoritative CLI and Agent-Experience (AX) design system by Steve Francia (spf13), creator of Cobra, Viper, and Hugo. Enforces the 56 principles of CLI Style across Grammar, Convention, Outcome, Legibility, Output, Interaction, Failure, Time, Distribution, and Trust.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Steve Francia",
+    "email": "steve.francia@gmail.com"
+  },
+  "homepage": "https://cli.style",
+  "repository": "https://github.com/spf13/cli-style",
+  "license": "CC-BY-NC-ND-4.0",
+  "keywords": ["cli", "design-system", "agent-experience", "developer-tools", "terminal", "ux"]
+}

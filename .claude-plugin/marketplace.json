@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "cli-style",
+  "owner": {
+    "name": "Steve Francia",
+    "email": "steve.francia@gmail.com"
+  },
+  "description": "CLI Style — An elegant interface for a more automated age. The 56 principles of command-line design for humans and AI agents, by Steve Francia (spf13).",
+  "plugins": [
+    {
+      "name": "cli-style",
+      "source": "./cli-style",
+      "category": "development",
+      "tags": ["cli", "design-system", "agent-experience", "developer-tools", "terminal", "ux"]
+    }
+  ]
+}
