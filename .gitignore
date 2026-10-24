@@ -5,3 +5,6 @@ __pycache__/
 .venv/
 .codegraph/
 .worktrees/
+.kata.local.toml
+# roborev snapshots
+/.roborev/
