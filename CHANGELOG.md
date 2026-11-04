@@ -25,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   | 51 | `#json-contract` | `#machine-format-is-strictest` |
   | 53 | `#update-yourself` | `#easy-to-remove` |
 
-- Principles 14, 31, 37, 45, 47, and 53 now teach the canonical rules (run with no configuration, say little on success, stream instead of buffer, one sentence first, report crashes, easy to remove).
+- Principles 4, 14, 31, 37, 45, 47, and 53 now teach the canonical rules (name the application for typing, run with no configuration, say little on success, stream instead of buffer, one sentence first, report crashes, easy to remove). Principles 10, 30, 41, and 51 are restated to match the canonical text.
 
 ## [1.0.0] - 2026-10-14
 

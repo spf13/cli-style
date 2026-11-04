@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the catalog JSON against the published schemastore schemas.
+"""Validate the plugin manifests against the published schemastore schemas.
 
 Covers `.claude-plugin/marketplace.json` and `cli-style/.claude-plugin/plugin.json`.
 """
