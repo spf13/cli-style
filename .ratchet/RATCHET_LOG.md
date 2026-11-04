@@ -56,3 +56,28 @@ Process note: the orchestrator (holding full inventory context) implements; ever
 - Change: 11 subprocess tests on temp repo copies (one realistic mutation each); CI step in invariants job; CONTRIBUTING command.
 - Verified: 11/11 pass (0.7s); disabling the ⚡ rule → 1 failure.
 - Judge: KEEP — 23 rule mutations: main drift rules caught; NOT caught: SKILL metadata.tags, Part count, name equality, manifest key set/source/taxonomy, tag-at-HEAD.
+
+### S2 · correctness — KEPT — 70→78 — 96f1d05
+- Critique: extra canonical line passed silently; deleted line → 46 "#None" errors; titles (part of every citation) unchecked (check_invariants.py:96-101).
+- Change: fixture renamed `canonical_principles.txt` with `anchor title`; length must equal SKILL.md count; titles compared (backticks/⚡ stripped). +5 tests (2 new rules; Part count, skill name, metadata.tags previously untested).
+- Verified: 2 new tests failed on previous checker, pass now; 16/16 pass.
+- Judge: KEEP — fixture identical to canonical. Minor: anchor-only fixture line → ValueError; backtick-stripping is lenient.
+
+### S2 · reality — KEPT (gate)
+- Verified: `python3 -m unittest discover -s .github/scripts` 16/16 OK; `check_invariants.py` pass; `validate_manifests.py` pass.
+
+### Sweep 2 scorecard
+| Lens | Score | Result |
+| --- | --- | --- |
+| completeness | 35→78 | KEPT |
+| tests | 0→62 | KEPT |
+| correctness | 70→78 | KEPT |
+| reality | pass | KEPT |
+
+| Metric | Baseline | S2 |
+| --- | --- | --- |
+| Tests | 0 | 16 (0.9s) |
+| Rules mutation-caught | n/a | main drift rules + Part count, name, tags |
+| Anchor / title match (enforced) | 44 / 29 (unenforced) | 56 / 56 (enforced) |
+| Checks | 2/2 | 3/3 |
+| Script LOC (check_invariants) | 210 | 253 |
