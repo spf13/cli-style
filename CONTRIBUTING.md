@@ -16,7 +16,7 @@ cli-style/
 ```
 
 - `cli-style/SKILL.md` sits at the skill directory root so it is discovered simultaneously by `sage`, `npx skills`, and Claude Code.
-- `.claude-plugin/marketplace.json` lists the skill entry and must correspond 1:1 with the `cli-style/` directory.
+- `.claude-plugin/marketplace.json` lists exactly one entry, for the `cli-style/` directory.
 - The Skill Catalog table in `README.md` links to `./cli-style/SKILL.md`.
 
 ## Manifest Contract
@@ -31,6 +31,13 @@ The matching `.claude-plugin/marketplace.json` entry carries four keys:
 
 - `name` must equal `"cli-style"` across the directory name, `SKILL.md` frontmatter, `plugin.json`, and `marketplace.json`.
 - `tags` in `marketplace.json` must equal `keywords` in `plugin.json` as a set, with no duplicates.
+- `SKILL.md` frontmatter `metadata.version`, `metadata.category`, and `metadata.tags` must equal `plugin.json` `version`, the marketplace `category`, and `plugin.json` `keywords`.
+
+## Principle Contract
+
+- `SKILL.md` has 10 `## Part` headings and principles numbered 1..56, each ending in `` (`#anchor`) ``.
+- Each anchor and title must equal the canonical [cli.style](https://cli.style/) entry in `.github/scripts/canonical_principles.txt`, so audit citations resolve.
+- Exactly principles 32, 33, 39, and 40 are marked `⚡ Divergent`.
 
 ## Run Checks Locally
 
@@ -43,6 +50,9 @@ python3 .github/scripts/validate_manifests.py
 # 2. Check cross-file invariants
 python3 .github/scripts/check_invariants.py
 
-# 3. Validate with sage (if installed)
+# 3. Test the invariant checker
+python3 -m unittest discover -s .github/scripts
+
+# 4. Validate with sage (if installed)
 sage validate .
 ```

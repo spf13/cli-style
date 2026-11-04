@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Validate the catalog JSON against the published schemastore schemas.
+"""Validate the plugin manifests against the published schemastore schemas.
 
-Covers `.claude-plugin/marketplace.json` plus every `<skill>/.claude-plugin/plugin.json`.
+Covers `.claude-plugin/marketplace.json` and `cli-style/.claude-plugin/plugin.json`.
 """
 
 from __future__ import annotations
@@ -14,7 +14,6 @@ from pathlib import Path
 from jsonschema import Draft7Validator
 
 ROOT = Path(__file__).resolve().parents[2]
-EXCLUDED = {"templates", ".github", ".git", ".claude-plugin", ".codegraph"}
 
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 PLUGIN_SCHEMA = "https://json.schemastore.org/claude-code-plugin-manifest.json"
@@ -33,24 +32,16 @@ def validate(path: Path, schema: dict, schema_name: str, errors: list[str]) -> N
         errors.append(f"{path.relative_to(ROOT)} [{schema_name}] {where}: {error.message}")
 
 
-def plugin_manifests() -> list[Path]:
-    return sorted(
-        p / ".claude-plugin" / "plugin.json"
-        for p in ROOT.iterdir()
-        if p.is_dir()
-        and p.name not in EXCLUDED
-        and (p / ".claude-plugin" / "plugin.json").is_file()
-    )
-
-
 def main() -> int:
     errors: list[str] = []
 
     marketplace_schema = fetch_schema(MARKETPLACE_SCHEMA)
     plugin_schema = fetch_schema(PLUGIN_SCHEMA)
 
-    targets = [(ROOT / ".claude-plugin" / "marketplace.json", marketplace_schema, "marketplace")]
-    targets += [(p, plugin_schema, "plugin") for p in plugin_manifests()]
+    targets = [
+        (ROOT / ".claude-plugin" / "marketplace.json", marketplace_schema, "marketplace"),
+        (ROOT / "cli-style" / ".claude-plugin" / "plugin.json", plugin_schema, "plugin"),
+    ]
 
     for path, schema, schema_name in targets:
         validate(path, schema, schema_name, errors)
