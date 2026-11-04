@@ -50,3 +50,9 @@ Process note: the orchestrator (holding full inventory context) implements; ever
 - Change: `canonical_anchors.txt` (from cli-website frontmatter); anchor-by-number check; ⚡ set check; metadata.version/category/tags vs manifests; description ≤1024; CONTRIBUTING "Principle Contract". Fixed real drift found: `metadata.category: coding` → `development`.
 - Verified: category check failed before fix (rc=1); 4 manual mutations each fail with a clear message; clean → pass.
 - Judge: KEEP — canonical list exact; 10 mutations caught; no false positives. Gaps: list length unchecked (extra line passes; deleted line → 46 cascading errors), titles unchecked, no unit tests.
+
+### S2 · tests — KEPT — 0→62 — 3e4cd41
+- Critique: zero tests for the checker; a broken rule would silently admit drift.
+- Change: 11 subprocess tests on temp repo copies (one realistic mutation each); CI step in invariants job; CONTRIBUTING command.
+- Verified: 11/11 pass (0.7s); disabling the ⚡ rule → 1 failure.
+- Judge: KEEP — 23 rule mutations: main drift rules caught; NOT caught: SKILL metadata.tags, Part count, name equality, manifest key set/source/taxonomy, tag-at-HEAD.

@@ -77,6 +77,27 @@ class CheckInvariantsTest(unittest.TestCase):
         self.edit("cli-style/SKILL.md", "description: >\n", "description: >\n  " + "x" * 1024 + "\n")
         self.assert_fails("must be 40..1024")
 
+    def test_extra_canonical_anchor(self) -> None:
+        with (self.tmp / ".github" / "scripts" / "canonical_principles.txt").open("a", encoding="utf-8") as f:
+            f.write("bonus-principle Bonus principle.\n")
+        self.assert_fails("canonical_principles.txt lists 57 principles; expected 56")
+
+    def test_non_canonical_title(self) -> None:
+        self.edit("cli-style/SKILL.md", "**Say little on success.**", "**Human tables are for eyes, not parsers.**")
+        self.assert_fails("principle 31 title is 'Human tables are for eyes, not parsers.'")
+
+    def test_part_heading_missing(self) -> None:
+        self.edit("cli-style/SKILL.md", "## Part VIII · Time", "## Time")
+        self.assert_fails("expected 10 Part headings, found 9")
+
+    def test_skill_name_drift(self) -> None:
+        self.edit("cli-style/SKILL.md", "name: cli-style", "name: cli-styles")
+        self.assert_fails("SKILL.md frontmatter name is 'cli-styles'")
+
+    def test_skill_metadata_tags_drift(self) -> None:
+        self.edit("cli-style/SKILL.md", 'tags: "cli, ', 'tags: "')
+        self.assert_fails("SKILL.md metadata.tags")
+
     def test_marketplace_tags_drift(self) -> None:
         self.edit(".claude-plugin/marketplace.json", '"ux"]', '"ux", "extra"]')
         self.assert_fails("!= plugin.json keywords")

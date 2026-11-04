@@ -17,7 +17,7 @@ EXCLUDED = {"templates", ".github", ".git", ".claude-plugin", ".codegraph"}
 MIN_DESCRIPTION = 40
 MAX_DESCRIPTION = 1024
 DIVERGENT = {32, 33, 39, 40}
-CANONICAL_ANCHORS = Path(__file__).with_name("canonical_anchors.txt")
+CANONICAL_PRINCIPLES = Path(__file__).with_name("canonical_principles.txt")
 
 errors: list[str] = []
 
@@ -91,14 +91,19 @@ def check_cli_style_principles(skill_md: Path) -> None:
         return
 
     canonical = [
-        line.strip()
-        for line in CANONICAL_ANCHORS.read_text(encoding="utf-8").splitlines()
+        line.split(maxsplit=1)
+        for line in CANONICAL_PRINCIPLES.read_text(encoding="utf-8").splitlines()
         if line.strip() and not line.startswith("#")
     ]
-    for number, (_, _, anchor) in enumerate(found, start=1):
-        want = canonical[number - 1] if number <= len(canonical) else None
-        if anchor != want:
-            fail(f"cli-style/SKILL.md: principle {number} anchor is #{anchor}; cli.style uses #{want}")
+    if len(canonical) != len(found):
+        fail(f"canonical_principles.txt lists {len(canonical)} principles; expected {len(found)}")
+        return
+    for number, ((_, title, anchor), (want_anchor, want_title)) in enumerate(zip(found, canonical), start=1):
+        if anchor != want_anchor:
+            fail(f"cli-style/SKILL.md: principle {number} anchor is #{anchor}; cli.style uses #{want_anchor}")
+        title = title.replace("⚡ Divergent", "").replace("`", "").strip()
+        if title != want_title:
+            fail(f"cli-style/SKILL.md: principle {number} title is {title!r}; cli.style uses {want_title!r}")
 
     divergent = {int(number) for number, title, _ in found if "⚡ Divergent" in title}
     if divergent != DIVERGENT:

@@ -36,7 +36,7 @@ The matching `.claude-plugin/marketplace.json` entry carries four keys:
 ## Principle Contract
 
 - `SKILL.md` has 10 `## Part` headings and principles numbered 1..56, each ending in `` (`#anchor`) ``.
-- Each anchor must equal the canonical [cli.style](https://cli.style/) anchor listed in `.github/scripts/canonical_anchors.txt`, so audit citations resolve.
+- Each anchor and title must equal the canonical [cli.style](https://cli.style/) entry in `.github/scripts/canonical_principles.txt`, so audit citations resolve.
 - Exactly principles 32, 33, 39, and 40 are marked `⚡ Divergent`.
 
 ## Run Checks Locally

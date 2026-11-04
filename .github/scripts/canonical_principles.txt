@@ -1,0 +1,58 @@
+# Canonical cli.style principles in order (1..56): `anchor title`, one per line.
+# Source: spf13/cli-website content/*/*.md frontmatter (weight, anchor, title) @ 15607c6.
+speak-in-sentences Speak in sentences.
+structure-over-state Use subcommands, not mode flags.
+unrepresentable Make invalid combinations impossible.
+name-for-typing Name the application for typing.
+verbs-are-verbs Few verbs, many nouns.
+positional-arguments The target is positional; everything else is a flag.
+end-of-flags Honor --, the end of flags.
+convention-over-configuration Convention over configuration.
+one-flag-one-meaning One flag, one meaning, everywhere.
+long-flags-first Long flags are for scripts; short flags are for hands.
+precedence-is-a-contract Precedence is a contract.
+configuration-by-lifespan Match configuration to lifespan.
+config-file-location Put configuration where the platform says.
+run-without-config Run with no configuration at all.
+be-a-filter Read stdin, write stdout; compose.
+name-the-outcome Name the outcome, not the mechanism.
+one-word-names Use one word whenever possible.
+preview-is-a-diff Show the change, not the summary.
+idempotent-or-refuse Be idempotent, or refuse.
+destruction-is-deliberate Match confirmation to consequences.
+least-surprise Do only what the name promises.
+recognition-over-recall Recognition over recall.
+self-documenting Make the application self-documenting.
+lead-with-examples Put real examples in every command's help.
+help-everywhere Help everywhere.
+version-and-schema Version and capability are queryable.
+point-to-the-fuller-docs End help with where to go next.
+streams-are-typed Streams are typed.
+output-is-a-budget Print less than you think you should.
+machine-output-first-class Machine output is a mode, not a fallback.
+say-nothing-on-success Say little on success.
+color-is-enhancement Color is an enhancement, never information.
+progress-on-stderr Progress goes on stderr, and only for a terminal.
+respond-quickly Communicate responsively.
+empty-states Design the empty result.
+line-oriented Keep plain output line-oriented.
+stream-dont-buffer Stream results as you get them.
+nothing-interactive-only Every prompt has a flag equivalent.
+detect-the-tty Detect the terminal; never assume one.
+prompts-are-courtesy When interactive, prompt rather than fail.
+handle-interrupts Exit promptly when interrupted.
+fail-forgivingly Fail forgivingly.
+errors-say-what-next Errors say what to do next.
+exit-codes-are-api Exit codes are part of your API.
+one-error-then-detail One sentence first, detail underneath.
+errors-in-machine-form Errors have a machine form too.
+crashes-ask-to-be-reported An unexpected crash asks to be reported.
+never-half-write Make state changes atomic.
+only-add Add, don't subtract.
+deprecate-with-a-date Deprecate with a date and a migration plan.
+machine-format-is-strictest The machine format is the strictest promise you make.
+single-binary Ship one file that runs anywhere.
+easy-to-remove As easy to remove as to install.
+secrets-never-in-arguments Secrets never come from arguments.
+be-honest-about-the-network Be honest about what leaves the machine.
+write-only-where-asked Write only where you were asked to write.
