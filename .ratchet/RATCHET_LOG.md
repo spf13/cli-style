@@ -123,3 +123,17 @@ Process note: the orchestrator (holding full inventory context) implements; ever
 
 ### Convergence check (after S3)
 All three ranked rocks are done; done signal met pending final gate and draft PR. Remaining backlog is low-impact or outside this repo → stop the loop and run the final bookend sweep.
+
+## Final bookend sweep (lenses 5, 6, 10, 12, 13, 15)
+
+### F · docs (link check) — KEPT — d2ac455
+- Change: lychee now checks `cli-style/SKILL.md` (BRIEF-allowed CI edit).
+- Judge: KEEP — CI-only, allowed, low risk. Bookend scores: architecture 88, simplify 85, ux 84, design/craft 90, docs/voice 80.
+
+### F · docs/voice — KEPT — 78→87 — 2ad9286
+- Critique: CHANGELOG omitted #4 (new rule) and restated 10/30/41/51; README Part VI clause garbled; validate_manifests docstring said "catalog".
+- Change: three one-line fixes.
+- Judge: KEEP — CHANGELOG matches SKILL.md diff; #30 "restated" slightly understates new requirements.
+
+### F · architecture / simplify / ux / design — CONVERGED
+- architecture 88 (remaining: fixture is a pinned copy; nothing re-derives it from cli-website), simplify 85 (checker 182 LOC vs ~120 target; remainder is release-tag logic kept on purpose), ux 84 (retryable column/key in sacred tables now has no backing principle), design/craft 90.
