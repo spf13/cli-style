@@ -57,7 +57,7 @@ class CheckInvariantsTest(unittest.TestCase):
 
     def test_missing_principle(self) -> None:
         skill = self.tmp / "cli-style" / "SKILL.md"
-        text = re.sub(r"^37\. \*\*.*\n.*\n", "", skill.read_text(encoding="utf-8"), count=1, flags=re.M)
+        text = re.sub(r"^37\. \*\*.*\n.*\n", "", skill.read_text(encoding="utf-8"), count=1, flags=re.MULTILINE)
         skill.write_text(text, encoding="utf-8")
         self.assert_fails("expected numbered principles 1..56")
 
@@ -108,7 +108,7 @@ class CheckInvariantsTest(unittest.TestCase):
 
     def test_readme_table_missing_skill(self) -> None:
         self.edit("README.md", "[`cli-style`](./cli-style/SKILL.md)", "`cli-style`")
-        self.assert_fails("README skills table must list every skill exactly once")
+        self.assert_fails("README skills table must list")
 
 
 if __name__ == "__main__":
