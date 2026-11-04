@@ -9,7 +9,7 @@ description: >
   or CLI frameworks (Cobra, Viper, pflag, clap, click, typer, argparse, commander, oclif).
 license: CC-BY-NC-ND-4.0
 metadata:
-  category: coding
+  category: development
   tags: "cli, design-system, agent-experience, developer-tools, terminal, ux"
   author: Steve Francia (steve.francia@gmail.com)
   version: "1.1.0"

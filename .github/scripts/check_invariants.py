@@ -15,6 +15,9 @@ TAXONOMY = ("languages", "development", "frameworks")
 ENTRY_KEYS = {"name", "source", "category", "tags"}
 EXCLUDED = {"templates", ".github", ".git", ".claude-plugin", ".codegraph"}
 MIN_DESCRIPTION = 40
+MAX_DESCRIPTION = 1024
+DIVERGENT = {32, 33, 39, 40}
+CANONICAL_ANCHORS = Path(__file__).with_name("canonical_anchors.txt")
 
 errors: list[str] = []
 
@@ -37,7 +40,10 @@ def frontmatter(path: Path) -> dict[str, str]:
     for line in lines[1:]:
         if line.strip() == "---":
             break
-        if line[:1].strip() and ":" in line:
+        nested = re.match(r"^\s+([a-z_]+):\s*(.*)$", line)
+        if key == "metadata" and nested:
+            fields[f"metadata.{nested[1]}"] = nested[2].strip().strip('"')
+        elif line[:1].strip() and ":" in line:
             key, _, value = line.partition(":")
             key = key.strip()
             value = value.strip()
@@ -78,10 +84,25 @@ def check_cli_style_principles(skill_md: Path) -> None:
     if len(parts) != 10:
         fail(f"cli-style/SKILL.md: expected 10 Part headings, found {len(parts)}")
 
-    numbered = re.findall(r"^(\d{1,2})\.\s+\*\*[^*]+\*\*(?:\s+⚡\s+Divergent)?\s+\(`#[a-z0-9-]+`\)", text, flags=re.M)
-    expected = [str(i) for i in range(1, 57)]
-    if numbered != expected:
-        fail(f"cli-style/SKILL.md: expected numbered principles 1..56 with anchors, got {len(numbered)} ({numbered})")
+    found = re.findall(r"^(\d{1,2})\.\s+\*\*([^*]+)\*\*\s+\(`#([a-z0-9-]+)`\)", text, flags=re.M)
+    numbers = [int(number) for number, _, _ in found]
+    if numbers != list(range(1, 57)):
+        fail(f"cli-style/SKILL.md: expected numbered principles 1..56 with anchors, got {len(numbers)} ({numbers})")
+        return
+
+    canonical = [
+        line.strip()
+        for line in CANONICAL_ANCHORS.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    ]
+    for number, (_, _, anchor) in enumerate(found, start=1):
+        want = canonical[number - 1] if number <= len(canonical) else None
+        if anchor != want:
+            fail(f"cli-style/SKILL.md: principle {number} anchor is #{anchor}; cli.style uses #{want}")
+
+    divergent = {int(number) for number, title, _ in found if "⚡ Divergent" in title}
+    if divergent != DIVERGENT:
+        fail(f"cli-style/SKILL.md: ⚡ Divergent principles are {sorted(divergent)}; expected {sorted(DIVERGENT)}")
 
 
 def latest_version_tag() -> str | None:
@@ -164,8 +185,25 @@ def main() -> int:
         description = skill.get("description", "")
         if not description:
             fail(f"'{name}': SKILL.md frontmatter is missing a description")
-        elif len(description) < MIN_DESCRIPTION:
-            fail(f"'{name}': SKILL.md description is {len(description)} chars; minimum is {MIN_DESCRIPTION}")
+        elif not MIN_DESCRIPTION <= len(description) <= MAX_DESCRIPTION:
+            fail(
+                f"'{name}': SKILL.md description is {len(description)} chars; "
+                f"must be {MIN_DESCRIPTION}..{MAX_DESCRIPTION}"
+            )
+
+        if skill.get("metadata.version") != manifest.get("version"):
+            fail(
+                f"'{name}': SKILL.md metadata.version {skill.get('metadata.version')!r} "
+                f"!= plugin.json version {manifest.get('version')!r}"
+            )
+        if skill.get("metadata.category") != entry.get("category"):
+            fail(
+                f"'{name}': SKILL.md metadata.category {skill.get('metadata.category')!r} "
+                f"!= marketplace category {entry.get('category')!r}"
+            )
+        skill_tags = [tag.strip() for tag in skill.get("metadata.tags", "").split(",") if tag.strip()]
+        if sorted(skill_tags) != sorted(manifest.get("keywords", [])):
+            fail(f"'{name}': SKILL.md metadata.tags {sorted(skill_tags)} != plugin.json keywords")
 
         tags, keywords = entry.get("tags", []), manifest.get("keywords", [])
         if set(tags) != set(keywords):

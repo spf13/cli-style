@@ -31,6 +31,13 @@ The matching `.claude-plugin/marketplace.json` entry carries four keys:
 
 - `name` must equal `"cli-style"` across the directory name, `SKILL.md` frontmatter, `plugin.json`, and `marketplace.json`.
 - `tags` in `marketplace.json` must equal `keywords` in `plugin.json` as a set, with no duplicates.
+- `SKILL.md` frontmatter `metadata.version`, `metadata.category`, and `metadata.tags` must equal `plugin.json` `version`, the marketplace `category`, and `plugin.json` `keywords`.
+
+## Principle Contract
+
+- `SKILL.md` has 10 `## Part` headings and principles numbered 1..56, each ending in `` (`#anchor`) ``.
+- Each anchor must equal the canonical [cli.style](https://cli.style/) anchor listed in `.github/scripts/canonical_anchors.txt`, so audit citations resolve.
+- Exactly principles 32, 33, 39, and 40 are marked `⚡ Divergent`.
 
 ## Run Checks Locally
 
