@@ -81,3 +81,45 @@ Process note: the orchestrator (holding full inventory context) implements; ever
 | Anchor / title match (enforced) | 44 / 29 (unenforced) | 56 / 56 (enforced) |
 | Checks | 2/2 | 3/3 |
 | Script LOC (check_invariants) | 210 | 253 |
+
+### S2 note
+- Lint: test file introduced 1 FURB167 (5→6, user-default ruff, no project config); cleared in S3 (→0).
+
+## Sweep 3 — rock 3: simplify the toolchain
+
+### S3 · simplify — KEPT — 70→80 — b90bf97
+- Critique: many-skill scaffolding in a one-skill repo (directory scan with templates/.codegraph exclusions, TAXONOMY, catalog-wide versions; validate_manifests EXCLUDED scan).
+- Change: both scripts address `cli-style` directly; one `version_tags` helper; non-semver version now fails; ruff clean (re.MULTILINE, executable shebangs). check_invariants 253→180, validate_manifests 69→60.
+- Verified: 16/16 tests; both checks pass; `ruff check` clean.
+- Judge: KEEP — tag behavior identical old vs new across 7 scenarios. Lost (acceptable for one skill): stray second plugin dir, extra README rows.
+
+### S3 · architecture — CONVERGED — 88
+- Two flat scripts (180 + 60 LOC), one fixture, one test file; no indirection left worth removing. Further change would be churn.
+
+### S3 · docs/voice — KEPT — 70→82 — 822bd44
+- Critique: tag errors printed raw tuples (`[(1, 2, 0)]`) and omitted the newer tag; CONTRIBUTING claimed a 1:1 directory scan the checker no longer does.
+- Change: messages print `vX.Y.Z`; CONTRIBUTING states the enforced rule.
+- Verified: scratch copy tagged v9.9.9 → both errors name v9.9.9; tests 16/16.
+- Judge: KEEP — pass/fail unchanged; every CONTRIBUTING claim (lines 18–40) enforced.
+
+### S3 · reality — KEPT (gate)
+- Verified: tests 16/16 OK; check_invariants pass; validate_manifests pass.
+
+### Sweep 3 scorecard
+| Lens | Score | Result |
+| --- | --- | --- |
+| simplify | 70→80 | KEPT |
+| architecture | 88 | CONVERGED |
+| docs/voice | 70→82 | KEPT |
+| reality | pass | KEPT |
+
+| Metric | Baseline | S3 |
+| --- | --- | --- |
+| Tests | 0 | 16 |
+| ruff findings | 5 | 0 |
+| check_invariants LOC | 210 | 180 (while enforcing ~9 more rules) |
+| validate_manifests LOC | 69 | 60 |
+| Anchor / title match | 44 / 29 | 56 / 56 enforced |
+
+### Convergence check (after S3)
+All three ranked rocks are done; done signal met pending final gate and draft PR. Remaining backlog is low-impact or outside this repo → stop the loop and run the final bookend sweep.
