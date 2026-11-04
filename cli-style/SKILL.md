@@ -12,7 +12,7 @@ metadata:
   category: coding
   tags: "cli, design-system, agent-experience, developer-tools, terminal, ux"
   author: Steve Francia (steve.francia@gmail.com)
-  version: "1.0.0"
+  version: "1.1.0"
   canonical: https://cli.style/
 ---
 
