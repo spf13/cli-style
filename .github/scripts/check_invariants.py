@@ -106,10 +106,12 @@ def check_version(version: str) -> None:
         released = [semver(os.environ.get("GITHUB_REF_NAME", ""))]
     else:
         released = version_tags("--points-at", "HEAD")
-    if any(tag and tag != current for tag in released):
-        fail(f"HEAD is tagged {released} but plugin.json version is {version}")
-    if any(tag > current for tag in version_tags()):
-        fail(f"plugin.json version {version} is older than the latest tag")
+    for tag in released:
+        if tag and tag != current:
+            fail(f"HEAD is tagged v{'.'.join(map(str, tag))} but plugin.json version is {version}")
+    latest = max(version_tags(), default=None)
+    if latest and latest > current:
+        fail(f"plugin.json version {version} is older than the latest tag v{'.'.join(map(str, latest))}")
     changelog = ROOT / "CHANGELOG.md"
     if not changelog.is_file():
         fail("CHANGELOG.md is missing")

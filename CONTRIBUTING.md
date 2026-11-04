@@ -16,7 +16,7 @@ cli-style/
 ```
 
 - `cli-style/SKILL.md` sits at the skill directory root so it is discovered simultaneously by `sage`, `npx skills`, and Claude Code.
-- `.claude-plugin/marketplace.json` lists the skill entry and must correspond 1:1 with the `cli-style/` directory.
+- `.claude-plugin/marketplace.json` lists exactly one entry, for the `cli-style/` directory.
 - The Skill Catalog table in `README.md` links to `./cli-style/SKILL.md`.
 
 ## Manifest Contract
