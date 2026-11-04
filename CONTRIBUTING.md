@@ -50,6 +50,9 @@ python3 .github/scripts/validate_manifests.py
 # 2. Check cross-file invariants
 python3 .github/scripts/check_invariants.py
 
-# 3. Validate with sage (if installed)
+# 3. Test the invariant checker
+python3 -m unittest discover -s .github/scripts
+
+# 4. Validate with sage (if installed)
 sage validate .
 ```

@@ -42,3 +42,11 @@ Process note: the orchestrator (holding full inventory context) implements; ever
 | Checks | 2/2 pass | 2/2 pass |
 | SKILL.md bytes | 20,726 | 21908 |
 | Script LOC | 279 | 279 |
+
+## Sweep 2 — rock 2: invariant checker catches drift
+
+### S2 · completeness — KEPT — 35→78 — 6cd7f65
+- Critique: checker only counted 1..56 (check_invariants.py:81-84); anchor typos, ⚡ drift, metadata drift all passed.
+- Change: `canonical_anchors.txt` (from cli-website frontmatter); anchor-by-number check; ⚡ set check; metadata.version/category/tags vs manifests; description ≤1024; CONTRIBUTING "Principle Contract". Fixed real drift found: `metadata.category: coding` → `development`.
+- Verified: category check failed before fix (rc=1); 4 manual mutations each fail with a clear message; clean → pass.
+- Judge: KEEP — canonical list exact; 10 mutations caught; no false positives. Gaps: list length unchecked (extra line passes; deleted line → 46 cascading errors), titles unchecked, no unit tests.
